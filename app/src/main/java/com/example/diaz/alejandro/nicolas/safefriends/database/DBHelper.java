@@ -69,4 +69,14 @@ public class DBHelper extends SQLiteOpenHelper implements Constants{
         }
     }
 
+    public boolean deleteParadaUser(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        try {
+            return db.delete(PARADATABLE, "id = " + id, null) > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.diaz.alejandro.nicolas.safefriends.database.DBHelper;
@@ -47,9 +48,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onMapLongClick(final LatLng latLng) {
                 //crear el dialog yes/no
                 //Toast.makeText(MapsActivity.this, "alto touch", Toast.LENGTH_SHORT).show();
+                final EditText input = new EditText(MapsActivity.this);
+                input.setText("Nueva parada");
                 new AlertDialog.Builder(MapsActivity.this)
                         .setIcon(R.mipmap.ic_launcher)
                         .setTitle("Parada")
+                        .setView(input)
                         .setMessage("Agregar parada en este punto?")
                         .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                             @Override
@@ -57,7 +61,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 DBHelper db = new DBHelper(MapsActivity.this);
                                 ParadaUser paradaUser = new ParadaUser();
                                 paradaUser.setNameUser("Nombre usuario");//acá iria el nombre ingresado al principio
-                                paradaUser.setNameParada("Parada test");//aca tendria que haber un edittext para ingresar el nombre que quiera a la parada
+                                paradaUser.setNameParada(input.getText().toString());
                                 paradaUser.setLatitud(String.valueOf(latLng.latitude));
                                 paradaUser.setLongitud(String.valueOf(latLng.longitude));
                                 db.insertParadaUser(paradaUser);
