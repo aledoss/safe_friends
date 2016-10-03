@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.diaz.alejandro.nicolas.safefriends.R;
+import com.example.diaz.alejandro.nicolas.safefriends.database.DBHelper;
 import com.example.diaz.alejandro.nicolas.safefriends.database.ParadaUser;
 
 import java.util.ArrayList;
@@ -52,12 +53,25 @@ public class AdapterListaParadas extends ArrayAdapter<ParadaUser> implements Vie
     @Override
     public void onClick(View v) {
         int position = (int) v.getTag();
-        ParadaUser paradaUser = getItem(position);
         switch (v.getId()){
             case R.id.btnBorrarParada:
-                Toast.makeText(context, "Borrar " + paradaUser.getNameParada(), Toast.LENGTH_SHORT).show();
+                borrarParada(position);
                 break;
         }
+    }
+
+    private void borrarParada(int id) {
+        DBHelper db = new DBHelper(context);
+        ParadaUser paradaUser = getItem(id);
+        if (db.deleteParadaUser(paradaUser.getId())) {
+            listaParadas.clear();
+            listaParadas.addAll(db.getAllParadaUser());
+            notifyDataSetChanged();
+            Toast.makeText(context, "Parada borrada: " + paradaUser.getNameParada(), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+        }
+        db.close();
     }
 
     private static class ViewHolder{
