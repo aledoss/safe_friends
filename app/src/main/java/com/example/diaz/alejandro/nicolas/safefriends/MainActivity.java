@@ -12,7 +12,7 @@ import com.example.diaz.alejandro.nicolas.safefriends.util.Constants;
 
 public class MainActivity extends AppCompatActivity implements Constants {
 
-    private Button btnIngresar;
+    private Button btnIngresar, btnEnviarNotif;
     private EditText etNombre;
 
     @Override
@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements Constants {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        btnEnviarNotif = (Button) findViewById(R.id.btnEnviarNotif);
         btnIngresar = (Button) findViewById(R.id.btnIngresar);
         etNombre= (EditText) findViewById(R.id.etNombre);
 

@@ -18,6 +18,12 @@
         android:layout_height="match_parent"
         android:gravity="bottom"
         android:orientation="vertical">
+        <Button
+            android:id="@+id/btnEnviarNotif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Enviar"/>
 
         <LinearLayout
             android:layout_width="match_parent"
