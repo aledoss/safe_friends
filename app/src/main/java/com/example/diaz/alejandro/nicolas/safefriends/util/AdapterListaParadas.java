@@ -72,6 +72,7 @@ public class AdapterListaParadas extends ArrayAdapter<ParadaUser> implements Vie
             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
         }
         db.close();
+        //LocationServices.GeofencingApi.removeGeofences()
     }
 
     private static class ViewHolder{

@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +17,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -35,10 +37,22 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"></activity>
+        <activity
+            android:name="com.example.diaz.alejandro.nicolas.safefriends.geofencing.GeofenceAdministrator"
+            android:label="Geofence Administrator"
+            android:theme="@style/Theme.Transparent" />
+
+        <service
+            android:name="com.example.diaz.alejandro.nicolas.safefriends.geofencing.GeofenceTransitionsIntentService"
+            android:exported="false" />
+        <service android:name="com.example.diaz.alejandro.nicolas.safefriends.geofencing.UpdateActualLocation" />
     </application>
 
 </manifest>

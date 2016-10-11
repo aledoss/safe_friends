@@ -24,10 +24,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
         //super.onMessageReceived(remoteMessage);
         Log.d(TAG, "De: " + remoteMessage.getFrom());
         Log.d(TAG, "Mensaje: " + remoteMessage.getNotification().getBody());
-        sendNotification(remoteMessage.getNotification().getBody());
+
+        sendNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
     }
 
-    private void sendNotification(String mensaje) {
+    private void sendNotification(String title, String mensaje) {
         Intent intent = new Intent(MyFirebaseMessagingService.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(MyFirebaseMessagingService.this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
@@ -35,10 +36,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Firebase Push Notification")
+                .setContentTitle(title)
                 .setContentText(mensaje)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
+                .setVibrate(new long[] {1000,1000,1000,1000,1000})
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =

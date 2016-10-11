@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
+    android:padding="20dp"
     tools:context="com.example.diaz.alejandro.nicolas.safefriends.MainActivity">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,29 +20,59 @@
         android:layout_height="match_parent"
         android:gravity="bottom"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvToken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:hint="token"
+            android:textSize="18sp" />
+
         <Button
             android:id="@+id/btnEnviarNotif"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Enviar"/>
+            android:layout_marginBottom="10dp"
+            android:text="Enviar" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="100"
+            android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal">
+            android:orientation="horizontal"
+            android:weightSum="100">
 
-            <EditText
-                android:id="@+id/etNombre"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="80"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:hint="@string/ingresar_nombre"
-                android:textSize="24sp" />
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/etNombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="80"
+                    android:hint="@string/ingresar_nombre"
+                    android:textSize="24sp" />
+
+                <EditText
+                    android:id="@+id/etGrupo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="80"
+                    android:hint="@string/ingresar_grupo"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <Button
@@ -49,9 +81,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="30dp"
-            android:textSize="22sp"
-            android:text="@string/loguear"/>
+            android:text="@string/loguear"
+            android:textSize="22sp" />
     </LinearLayout>
 
 

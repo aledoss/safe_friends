@@ -1,9 +1,11 @@
 package com.example.diaz.alejandro.nicolas.safefriends.database;
 
+import java.io.Serializable;
+
 /**
  * Created by Lenwe on 01/10/2016.
  */
-public class ParadaUser {
+public class ParadaUser implements Serializable {
     private int id;
     private String nameParada;
     private String nameUser;
