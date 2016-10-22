@@ -1,6 +1,7 @@
 package com.example.diaz.alejandro.nicolas.safefriends;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
@@ -9,14 +10,17 @@ import android.widget.Toast;
 
 import com.example.diaz.alejandro.nicolas.safefriends.database.DBHelper;
 import com.example.diaz.alejandro.nicolas.safefriends.database.ParadaUser;
+import com.example.diaz.alejandro.nicolas.safefriends.geofencing.GeofenceAdministrator;
+import com.example.diaz.alejandro.nicolas.safefriends.util.Constants;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import java.io.Serializable;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Constants {
 
     private GoogleMap mMap;
 
@@ -28,16 +32,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         final LatLng latlngInicio = new LatLng(-34.5997038,-58.4458525);
         float zoomInicio = (float) 11.5;
 
@@ -47,7 +47,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onMapLongClick(final LatLng latLng) {
                 //crear el dialog yes/no
-                //Toast.makeText(MapsActivity.this, "alto touch", Toast.LENGTH_SHORT).show();
                 final EditText input = new EditText(MapsActivity.this);
                 input.setText("Nueva parada");
                 new AlertDialog.Builder(MapsActivity.this)
@@ -64,9 +63,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 paradaUser.setNameParada(input.getText().toString());
                                 paradaUser.setLatitud(String.valueOf(latLng.latitude));
                                 paradaUser.setLongitud(String.valueOf(latLng.longitude));
+                                //inserto en la bd local la parada
                                 db.insertParadaUser(paradaUser);
+                                //Mando el intent para crear la Geofence (parada) para que me avise cuando pase por esas coordenadas
+                                Intent intent = new Intent(MapsActivity.this, GeofenceAdministrator.class);
+                                //intent.putExtra(ACCIONGEOFENCE, AGREGARGEOFENCE);
+                                intent.putExtra(GEOFENCEPARAM, (Serializable) paradaUser);
+                                //Log.d("NICOTEST", listaParadaUser.get(0).getLatitud() + " longitud: " + listaParadaUser.get(0).getLongitud());
+                                startActivity(intent);
+
+
                                 db.close();
-                                Toast.makeText(MapsActivity.this, "Parada agregada.", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(MapsActivity.this, "Parada agregada.", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         })

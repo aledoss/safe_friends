@@ -52,9 +52,8 @@ public class GeofenceAdministrator extends Activity implements
             finish();
             return;
         }
-
         connectGoogleApiClient();
-
+        //obtengo el dato de la parada pasado por Bundle para crearla
         Bundle extras = getIntent().getExtras();
         ParadaUser paradaUser = (ParadaUser) extras.getSerializable(GEOFENCEPARAM);
         createGeofences(paradaUser);
@@ -81,12 +80,17 @@ public class GeofenceAdministrator extends Activity implements
     }
 
     public void createGeofences(ParadaUser geofence) {
+        //recorto la latitud y longitud para probar en el maps de genymotion, esto no afecta a la precisión
+        Double latitud = Double.parseDouble(geofence.getLatitud().substring(0,12));
+        Double longitud = Double.parseDouble(geofence.getLongitud().substring(0,12));
         mGeofence = new SimpleGeofence(
                 String.valueOf(geofence.getId()),
-                /*Double.parseDouble(geofence.getLatitud()),
-                Double.parseDouble(geofence.getLongitud()),*/
-                -34.6033177,
-                -58.4428914,
+                latitud,
+                longitud,
+                //Double.parseDouble(geofence.getLatitud()),
+                //Double.parseDouble(geofence.getLongitud()),
+                //-34.6033177,
+                //-58.4428914,
                 GEOFENCE_RADIUS_METERS,
                 GEOFENCE_EXPIRATION_TIME,
                 Geofence.GEOFENCE_TRANSITION_ENTER
@@ -140,7 +144,7 @@ public class GeofenceAdministrator extends Activity implements
         //}
         Log.e(GEOFENCINGADMINTAG, "Geofencelist: " + mGeofenceList);
         //Toast.makeText(this, getString(R.string.start_geofence_service), Toast.LENGTH_SHORT).show();
-        //finish();
+        finish();
     }
 
     @Override
