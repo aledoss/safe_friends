@@ -128,7 +128,7 @@ public class GeofenceTransitionsIntentService extends IntentService implements
             builder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(geoFenceId.get(0).getNameUser())
-                    .setContentText("Proximo a " + geoFenceId.get(0).getNameParada())
+                    .setContentText("Llegando a " + geoFenceId.get(0).getNameParada())
                     .setVibrate(new long[]{1000, 1000, 1000, 1000});
             //LED: builder.setLights(Color.RED, 3000, 3000);
         } catch (Exception e) {
@@ -150,7 +150,7 @@ public class GeofenceTransitionsIntentService extends IntentService implements
 
         for (Geofence geofence : triggeredGeoFences) {
             for (int i = 0; i < listaDBGeofences.size(); i++) {
-                if (Integer.parseInt(geofence.getRequestId()) == listaDBGeofences.get(i).getId()) {
+                if (Integer.parseInt(geofence.getRequestId()) +1 == listaDBGeofences.get(i).getId()) {
                     listaGeofencesAccedidas.add(listaDBGeofences.get(i));
                 }
             }
