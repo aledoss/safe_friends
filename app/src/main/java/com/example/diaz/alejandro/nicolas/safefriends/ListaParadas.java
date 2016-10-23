@@ -16,11 +16,14 @@ import com.example.diaz.alejandro.nicolas.safefriends.util.AdapterListaParadas;
 
 import java.util.ArrayList;
 
+import static com.example.diaz.alejandro.nicolas.safefriends.util.Constants.NOMBRE;
+
 public class ListaParadas extends AppCompatActivity {
 
     private Button btnMapa;
     private Toolbar toolbar;
     private ListView listViewParadas;
+    private String nombre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class ListaParadas extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbarListaParadas);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Lista de Paradas");
+        nombre = obtenerDatosIntent();
     }
 
     @Override
@@ -58,10 +62,20 @@ public class ListaParadas extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.agregarParada:
-                startActivity(new Intent(ListaParadas.this, MapsActivity.class));
+                Intent intent = new Intent(ListaParadas.this, MapsActivity.class);
+                intent.putExtra(NOMBRE, nombre);
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private String obtenerDatosIntent() {
+        try{
+            return nombre = getIntent().getExtras().getString(NOMBRE);
+        }catch (Exception e){
+            e.printStackTrace();
+            return "";
+        }
     }
 }

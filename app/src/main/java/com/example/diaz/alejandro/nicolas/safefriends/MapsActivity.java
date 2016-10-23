@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Constants {
 
     private GoogleMap mMap;
+    private String nombre = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        nombre = obtenerDatosIntent();
     }
 
     @Override
@@ -64,7 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             public void onClick(DialogInterface dialog, int which) {
                                 DBHelper db = new DBHelper(MapsActivity.this);
                                 ParadaUser paradaUser = new ParadaUser();
-                                paradaUser.setNameUser("Nombre usuario");//acá iria el nombre ingresado al principio
+                                paradaUser.setNameUser(nombre);//acá iria el nombre ingresado al principio
                                 paradaUser.setNameParada(input.getText().toString());
                                 paradaUser.setLatitud(String.valueOf(latLng.latitude));
                                 paradaUser.setLongitud(String.valueOf(latLng.longitude));
@@ -74,9 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 Intent intent = new Intent(MapsActivity.this, GeofenceAdministrator.class);
                                 //intent.putExtra(ACCIONGEOFENCE, AGREGARGEOFENCE);
                                 intent.putExtra(GEOFENCEPARAM, (Serializable) paradaUser);
-                                //Log.d("NICOTEST", listaParadaUser.get(0).getLatitud() + " longitud: " + listaParadaUser.get(0).getLongitud());
                                 startActivity(intent);
-
 
                                 db.close();
                                 //Toast.makeText(MapsActivity.this, "Parada agregada.", Toast.LENGTH_SHORT).show();
@@ -113,6 +113,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             db.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private String obtenerDatosIntent() {
+        try {
+            return nombre = getIntent().getExtras().getString(NOMBRE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
         }
     }
 
