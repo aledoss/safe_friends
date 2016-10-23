@@ -2,6 +2,8 @@ package com.example.diaz.alejandro.nicolas.safefriends;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
@@ -16,9 +18,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Constants {
 
@@ -38,10 +43,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        final LatLng latlngInicio = new LatLng(-34.5997038,-58.4458525);
+        final LatLng latlngInicio = new LatLng(-34.5997038, -58.4458525);
         float zoomInicio = (float) 11.5;
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlngInicio,zoomInicio));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlngInicio, zoomInicio));
+        cargarParadas(googleMap);
 
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
@@ -87,6 +92,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .show();
             }
         });
+    }
+
+    private void cargarParadas(GoogleMap googleMap) {
+        try {
+            DBHelper db = new DBHelper(MapsActivity.this);
+            ArrayList<ParadaUser> listaParadas = db.getAllParadaUser();
+            LatLng parqueLatLng;
+            for (ParadaUser parada : listaParadas) {
+                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.mipmap.ic_launcher);
+                Bitmap b = bitmapdraw.getBitmap();
+                Bitmap smallMarker = Bitmap.createScaledBitmap(b, 65, 65, false);
+                parqueLatLng = new LatLng(Double.parseDouble(parada.getLatitud()), Double.parseDouble(parada.getLongitud()));
+                googleMap.addMarker(new MarkerOptions()
+                        .title(parada.getNameParada())
+                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                        .position(parqueLatLng)
+                );
+            }
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -33,7 +33,7 @@ public interface Constants {
     String UPDATEACTUALLOCATIONTAG = "UpdateActuaLocation";
     String GEOFENCINGTAG = "GeofencingTag";
     String GEOFENCINGADMINTAG = "GeofencingAdminTag";
-    float GEOFENCE_RADIUS_METERS = 40;   //40 metros
+    float GEOFENCE_RADIUS_METERS = 500;   //40 metros
     long GEOFENCE_EXPIRATION_TIME = Geofence.NEVER_EXPIRE;
     int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
