@@ -2,6 +2,7 @@ package com.example.diaz.alejandro.nicolas.safefriends;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -55,10 +56,10 @@ public class MainActivity extends AppCompatActivity implements Constants {
                 } else {
                     //me meto en el grupo.
                     //FirebaseMessaging.getInstance().subscribeToTopic(etGrupo.getText().toString());
-                    FirebaseMessaging.getInstance().subscribeToTopic("Test");
+                    FirebaseMessaging.getInstance().subscribeToTopic(etGrupo.getText().toString());
                     Intent intent = new Intent(MainActivity.this, ListaParadas.class);
                     intent.putExtra(NOMBRE, etNombre.getText().toString());
-                    intent.putExtra(GRUPO, etGrupo.getText().toString());
+                    cargarGrupo();
                     startActivity(intent);
                 }
             }
@@ -108,5 +109,16 @@ public class MainActivity extends AppCompatActivity implements Constants {
             }
         });
 
+    }
+
+    private void cargarGrupo() {
+        try {
+            SharedPreferences pref = getSharedPreferences(GRUPO, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString(GRUPO, etGrupo.getText().toString());
+            editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

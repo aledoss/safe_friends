@@ -64,6 +64,7 @@ public class ListaParadas extends AppCompatActivity {
             case R.id.agregarParada:
                 Intent intent = new Intent(ListaParadas.this, MapsActivity.class);
                 intent.putExtra(NOMBRE, nombre);
+                startActivity(intent);
                 break;
         }
 

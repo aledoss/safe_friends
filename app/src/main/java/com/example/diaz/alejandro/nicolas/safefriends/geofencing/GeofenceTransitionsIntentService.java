@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -62,7 +63,7 @@ public class GeofenceTransitionsIntentService extends IntentService implements
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        showToast(this,"OnConnected");
+        showToast(this, "OnConnected");
     }
 
     @Override
@@ -102,10 +103,11 @@ public class GeofenceTransitionsIntentService extends IntentService implements
     }
 
     private void showNotifToTopic(List<ParadaUser> geoFenceId) {
-        try{
+        try {
+            String grupo = obtenerGrupo();
             JsonRequest jsonRequest = new JsonRequest();
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("to", "/topics/Test");
+            jsonObject.put("to", "/topics/" + grupo);
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("body", "Llegando a " + geoFenceId.get(0).getNameParada());
             jsonObject1.put("title", geoFenceId.get(0).getNameUser());
@@ -115,17 +117,25 @@ public class GeofenceTransitionsIntentService extends IntentService implements
                 @Override
                 public void onSuccessResponse(String result) {
                     Log.d(JSONTAG, result);
+                    showToast(GeofenceTransitionsIntentService.this, "Se envió una notitficacion a los miembros de tu grupo");
                 }
 
                 @Override
                 public void onErrorResponse(String result) {
                     Log.d(JSONTAG, result);
+                    showToast(GeofenceTransitionsIntentService.this, "Error al  una notitficacion a los miembros de tu grupo");
                 }
             });
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private String obtenerGrupo() {
+        SharedPreferences prefs = getSharedPreferences(GRUPO, Context.MODE_PRIVATE);
+        String grupo = prefs.getString(GRUPO, "");
+        return grupo;
     }
 
     @Override
@@ -153,29 +163,6 @@ public class GeofenceTransitionsIntentService extends IntentService implements
         });
     }
 
-    private void showNotif(List<ParadaUser> geoFenceId) {
-        NotificationCompat.Builder builder = null;
-        Log.d("GEOFENCENOTIF", "ID: " + geoFenceId.get(0).getId() + " Nombre: " + geoFenceId.get(0).getNameParada() + " User: " + geoFenceId.get(0).getNameUser()
-                + " Latitud: " + geoFenceId.get(0).getLatitud() + " Longitud: " + geoFenceId.get(0).getLongitud());
-        try {
-            builder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle(geoFenceId.get(0).getNameUser())
-                    .setContentText("Llegando a " + geoFenceId.get(0).getNameParada())
-                    .setVibrate(new long[]{1000, 1000, 1000, 1000});
-            //LED: builder.setLights(Color.RED, 3000, 3000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Random random = new Random();   //aca se tendria que hacer algo que sea unico
-        int NOTIFICATION_ID = random.nextInt();//Integer.parseInt(geoFenceId.get(0).getId());    //numero de identificacion de la notificacion
-        Intent targetIntent = new Intent(this, GeofenceTransitionsIntentService.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(contentIntent);
-        NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        nManager.notify(NOTIFICATION_ID, builder.build());
-    }
-
     private List<ParadaUser> getGeofenceTransitionDetails(Context context, List<Geofence> triggeredGeoFences) {
         DBHelper db = new DBHelper(context);
         ArrayList<ParadaUser> listaDBGeofences = db.getAllParadaUser();
@@ -183,7 +170,7 @@ public class GeofenceTransitionsIntentService extends IntentService implements
 
         for (Geofence geofence : triggeredGeoFences) {
             for (int i = 0; i < listaDBGeofences.size(); i++) {
-                if (Integer.parseInt(geofence.getRequestId()) +1 == listaDBGeofences.get(i).getId()) {
+                if (Integer.parseInt(geofence.getRequestId()) + 1 == listaDBGeofences.get(i).getId()) {
                     listaGeofencesAccedidas.add(listaDBGeofences.get(i));
                 }
             }
