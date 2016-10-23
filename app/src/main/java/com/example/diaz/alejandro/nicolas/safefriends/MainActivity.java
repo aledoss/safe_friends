@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements Constants {
                 if (listaParadaUser.get(0) == null) {
                     Toast.makeText(MainActivity.this, "No hay usuarios cargados", Toast.LENGTH_SHORT).show();
                 } else {
+                    //agrego todas las geofences cargadas, ya que se borran
                     /*Intent intent = new Intent(MainActivity.this, GeofenceAdministrator.class);
                     intent.putExtra(ACCIONGEOFENCE, AGREGARGEOFENCE);
                     intent.putExtra(GEOFENCEPARAM, (Serializable) (listaParadaUser.get(0)));

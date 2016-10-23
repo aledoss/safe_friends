@@ -18,11 +18,16 @@ import com.example.diaz.alejandro.nicolas.safefriends.R;
 import com.example.diaz.alejandro.nicolas.safefriends.database.DBHelper;
 import com.example.diaz.alejandro.nicolas.safefriends.database.ParadaUser;
 import com.example.diaz.alejandro.nicolas.safefriends.util.Constants;
+import com.example.diaz.alejandro.nicolas.safefriends.util.JsonRequest;
+import com.example.diaz.alejandro.nicolas.safefriends.util.VolleyCallback;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 import com.google.android.gms.location.LocationServices;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,12 +92,40 @@ public class GeofenceTransitionsIntentService extends IntentService implements
                 //showToast(this,R.string.entering_geofence);
                 //Geofence geofence = (Geofence) triggeredGeoFenceId.get(0);
                 //showToast(this,geofence.getRequestId().toString());
-                showNotif(geofenceTransitionDetails);
+                showNotifToTopic(geofenceTransitionDetails);
+                //showNotif(geofenceTransitionDetails);
                 //Toast.makeText(GeofenceTransitionsIntentService.this, getString(R.string.entering_geofence), Toast.LENGTH_SHORT).show();
             } else if (Geofence.GEOFENCE_TRANSITION_EXIT == transitionType) {
                 //showToast(this, R.string.exiting_geofence);
             }
         }
+    }
+
+    private void showNotifToTopic(List<ParadaUser> geoFenceId) {
+        try{
+            JsonRequest jsonRequest = new JsonRequest();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("to", "/topics/Test");
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("body", "Llegando a " + geoFenceId.get(0).getNameParada());
+            jsonObject1.put("title", geoFenceId.get(0).getNameUser());
+            jsonObject.put("notification", jsonObject1);
+            Log.d(JSONTAG, jsonObject.toString());
+            jsonRequest.callJSON(URL, jsonObject, getApplicationContext(), new VolleyCallback() {
+                @Override
+                public void onSuccessResponse(String result) {
+                    Log.d(JSONTAG, result);
+                }
+
+                @Override
+                public void onErrorResponse(String result) {
+                    Log.d(JSONTAG, result);
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -155,9 +188,7 @@ public class GeofenceTransitionsIntentService extends IntentService implements
                 }
             }
         }
-
         db.close();
-
         return listaGeofencesAccedidas;
     }
 }
