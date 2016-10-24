@@ -21,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper implements Constants{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table if not exists " + PARADATABLE + " (id integer primary key, " + NAMECOLUMNPARADA + " text, " + NAMECOLUMNUSER + " text, " +
+        db.execSQL("create table if not exists " + PARADATABLE + " (id integer primary key AUTOINCREMENT NOT NULL, " + NAMECOLUMNPARADA + " text, " + NAMECOLUMNUSER + " text, " +
                 LATITUDCOLUMNPARADA + " text, " + LONGITUDCOLUMNPARADA + " text )");
     }
 

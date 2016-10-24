@@ -170,7 +170,7 @@ public class GeofenceTransitionsIntentService extends IntentService implements
 
         for (Geofence geofence : triggeredGeoFences) {
             for (int i = 0; i < listaDBGeofences.size(); i++) {
-                if (Integer.parseInt(geofence.getRequestId()) + 1 == listaDBGeofences.get(i).getId()) {
+                if (Integer.parseInt(geofence.getRequestId()) == listaDBGeofences.get(i).getId()) {
                     listaGeofencesAccedidas.add(listaDBGeofences.get(i));
                 }
             }

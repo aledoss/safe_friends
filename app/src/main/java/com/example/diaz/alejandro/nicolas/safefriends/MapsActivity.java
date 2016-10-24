@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -72,13 +73,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 paradaUser.setLongitud(String.valueOf(latLng.longitude));
                                 //inserto en la bd local la parada
                                 db.insertParadaUser(paradaUser);
+                                int id =  obtenerIdParadaUsuario(db);//ya que no se hace setid, por defecto es 0
+                                paradaUser.setId(id);
+                                db.close();
                                 //Mando el intent para crear la Geofence (parada) para que me avise cuando pase por esas coordenadas
                                 Intent intent = new Intent(MapsActivity.this, GeofenceAdministrator.class);
                                 //intent.putExtra(ACCIONGEOFENCE, AGREGARGEOFENCE);
                                 intent.putExtra(GEOFENCEPARAM, (Serializable) paradaUser);
                                 startActivity(intent);
-
-                                db.close();
                                 //Toast.makeText(MapsActivity.this, "Parada agregada.", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
@@ -92,6 +94,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .show();
             }
         });
+    }
+
+    private int obtenerIdParadaUsuario(DBHelper db) {
+        ParadaUser paradaUser = new ParadaUser();
+        int id = 0;
+        for(ParadaUser parada: db.getAllParadaUser()){
+            id = parada.getId();
+        }
+        return id;
     }
 
     private void cargarParadas(GoogleMap googleMap) {

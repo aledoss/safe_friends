@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements Constants {
 
     private Button btnIngresar, btnEnviarNotif;
     private EditText etNombre, etGrupo;
-    private TextView tvToken;
+    //private TextView tvToken;
     private Context context;
 
     @Override
@@ -32,20 +32,20 @@ public class MainActivity extends AppCompatActivity implements Constants {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnEnviarNotif = (Button) findViewById(R.id.btnEnviarNotif);
+        //btnEnviarNotif = (Button) findViewById(R.id.btnEnviarNotif);
         btnIngresar = (Button) findViewById(R.id.btnIngresar);
         etNombre = (EditText) findViewById(R.id.etNombre);
         etGrupo = (EditText) findViewById(R.id.etGrupo);
-        tvToken = (TextView) findViewById(R.id.tvToken);
+        //tvToken = (TextView) findViewById(R.id.tvToken);
 
         context = this;
         //obtengo el token
-        try {
+        /*try {
             tvToken.setText(FirebaseInstanceId.getInstance().getToken().toString());
             Log.d("TOKEN", "Token: " + FirebaseInstanceId.getInstance().getToken());
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
 
         btnIngresar.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements Constants {
         });
 
 
-        btnEnviarNotif.setOnClickListener(new View.OnClickListener() {
+        /*btnEnviarNotif.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DBHelper dbHelper = new DBHelper(context);
@@ -104,10 +104,10 @@ public class MainActivity extends AppCompatActivity implements Constants {
                         });
                     } catch (JSONException e) {
                         e.printStackTrace();
-                    }*/
+                    }
                 }
             }
-        });
+        });*/
 
     }
 
