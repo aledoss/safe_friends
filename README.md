@@ -1,7 +1,7 @@
 # Safe Friends
 
 ## Introduction
-Safe Friends let you join a group of people (friends, family, etc) and set stops. This stops are points that are set in the map, and when someone arrive one of them, it will send a notification to all the users from the group that the guy is in the stop.
+Safe Friends lets you join a group of people (friends, family, etc) and set stops. These stops are points which set in the map, and when someone arrives to one of them, it will send a notification to all the users in the group informing of the arrival.
 
 ## Pre-requisites
 * Min Android SDK 15
