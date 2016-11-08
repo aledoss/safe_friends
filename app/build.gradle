@@ -29,5 +29,4 @@ dependencies {
     compile 'com.mcxiaoke.volley:library:1.0.19'
 }
 
-
 apply plugin: 'com.google.gms.google-services'
