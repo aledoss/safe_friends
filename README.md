@@ -18,4 +18,4 @@ Safe Friends lets you join a group of people (friends, family, etc) and set stop
 
 
 ## Why using Safe Friends
-When arraving late and tired at home because of work, study, going dancing, etc, you forget telling some people they care about you that you are safe at home, or any place you want, Safe Friends will notify them with only having the GPS On and setting the stops you want.
+When arriving late and tired at home because of work, studies, going clubbing, etc, you may forget to notify those close to you that you are safe at home (or any place). Safe Friends will notify them for you: just activate the GPS on your phone and set some stops!
